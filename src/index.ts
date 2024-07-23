@@ -51,6 +51,30 @@ app.post('/create_report', function (req, res) {
 	}
 });
 
+app.put('/update_project', function (req, res) {
+	const id = req.body.id;
+	const name = req.body.name;
+	const description = req.body.description;
+	try {
+		update_project(id, name, description);
+		res.send('Project updated successfully!');
+	} catch (error) {
+		res.send('Error updating project!');
+	}
+});
+
+app.put('/update_report', function (req, res) {
+	const id = req.body.id;
+	const text = req.body.text;
+	const projectid = req.body.projectid;
+	try {
+		update_report(id, text, projectid);
+		res.send('Report updated successfully!');
+	} catch (error) {
+		res.send('Error updating report!');
+	}
+});
+
 async function read_projects() {
 	const sql = 'SELECT * FROM projects';
 	const projects = db.query(sql);
@@ -74,6 +98,22 @@ async function create_project(id: string, name: string, description: string) {
 async function create_report(id: string, text: string, projectid: string) {
 	const sql =
 		'INSERT INTO reports (id, text, projectid) VALUES (@id, @text, @projectid)';
+	const params = { id: id, text: text, projectid: projectid };
+	const result = db.run(sql, params);
+	console.log(result);
+}
+
+async function update_project(id: string, name: string, description: string) {
+	const sql =
+		'UPDATE projects SET name = @name, description = @description WHERE id = @id';
+	const params = { id: id, name: name, description: description };
+	const result = db.run(sql, params);
+	console.log(result);
+}
+
+async function update_report(id: string, text: string, projectid: string) {
+	const sql =
+		'UPDATE reports SET text = @text WHERE id = @id AND projectid = @projectid';
 	const params = { id: id, text: text, projectid: projectid };
 	const result = db.run(sql, params);
 	console.log(result);
