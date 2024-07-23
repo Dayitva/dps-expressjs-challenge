@@ -27,68 +27,68 @@ app.get('/read_reports', function (req, res) {
 	res.send('API is working properly!');
 });
 
-app.post('/create_project', function (req, res) {
+app.post('/create_project', async function (req, res) {
 	const id = req.body.id;
 	const name = req.body.name;
 	const description = req.body.description;
 	try {
-		create_project(id, name, description);
+		await create_project(id, name, description);
 		res.send('Project created successfully!');
 	} catch (error) {
 		res.send('Error creating project!');
 	}
 });
 
-app.post('/create_report', function (req, res) {
+app.post('/create_report', async function (req, res) {
 	const id = req.body.id;
 	const text = req.body.text;
 	const projectid = req.body.projectid;
 	try {
-		create_report(id, text, projectid);
+		await create_report(id, text, projectid);
 		res.send('Report created successfully!');
 	} catch (error) {
 		res.send('Error creating report!');
 	}
 });
 
-app.put('/update_project', function (req, res) {
+app.put('/update_project', async function (req, res) {
 	const id = req.body.id;
 	const name = req.body.name;
 	const description = req.body.description;
 	try {
-		update_project(id, name, description);
+		await update_project(id, name, description);
 		res.send('Project updated successfully!');
 	} catch (error) {
 		res.send('Error updating project!');
 	}
 });
 
-app.put('/update_report', function (req, res) {
+app.put('/update_report', async function (req, res) {
 	const id = req.body.id;
 	const text = req.body.text;
 	const projectid = req.body.projectid;
 	try {
-		update_report(id, text, projectid);
+		await update_report(id, text, projectid);
 		res.send('Report updated successfully!');
 	} catch (error) {
 		res.send('Error updating report!');
 	}
 });
 
-app.delete('/delete_project', function (req, res) {
+app.delete('/delete_project', async function (req, res) {
 	const id = req.body.id;
 	try {
-		delete_project(id);
+		await delete_project(id);
 		res.send('Project deleted successfully!');
 	} catch (error) {
 		res.send('Error deleting project!');
 	}
 });
 
-app.delete('/delete_report', function (req, res) {
+app.delete('/delete_report', async function (req, res) {
 	const id = req.body.id;
 	try {
-		delete_report(id);
+		await delete_report(id);
 		res.send('Report deleted successfully!');
 	} catch (error) {
 		res.send('Error deleting report!');
