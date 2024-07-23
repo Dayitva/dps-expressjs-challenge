@@ -39,6 +39,18 @@ app.post('/create_project', function (req, res) {
 	}
 });
 
+app.post('/create_report', function (req, res) {
+	const id = req.body.id;
+	const text = req.body.text;
+	const projectid = req.body.projectid;
+	try {
+		create_report(id, text, projectid);
+		res.send('Report created successfully!');
+	} catch (error) {
+		res.send('Error creating report!');
+	}
+});
+
 async function read_projects() {
 	const sql = 'SELECT * FROM projects';
 	const projects = db.query(sql);
@@ -55,6 +67,14 @@ async function create_project(id: string, name: string, description: string) {
 	const sql =
 		'INSERT INTO projects (id, name, description) VALUES (@id, @name, @description)';
 	const params = { id: id, name: name, description: description };
+	const result = db.run(sql, params);
+	console.log(result);
+}
+
+async function create_report(id: string, text: string, projectid: string) {
+	const sql =
+		'INSERT INTO reports (id, text, projectid) VALUES (@id, @text, @projectid)';
+	const params = { id: id, text: text, projectid: projectid };
 	const result = db.run(sql, params);
 	console.log(result);
 }
