@@ -17,14 +17,16 @@ app.get('/', function (req, res) {
 	res.send('API is working properly!');
 });
 
-app.get('/read_projects', function (req, res) {
-	read_projects();
-	res.send('API is working properly!');
+app.get('/read_projects', async function (req, res) {
+	const projects = await read_projects();
+	console.log(projects);
+	res.json(projects);
 });
 
-app.get('/read_reports', function (req, res) {
-	read_reports();
-	res.send('API is working properly!');
+app.get('/read_reports', async function (req, res) {
+	const reports = await read_reports();
+	console.log(reports);
+	res.json(reports);
 });
 
 app.post('/create_project', async function (req, res) {
@@ -98,13 +100,13 @@ app.delete('/delete_report', async function (req, res) {
 async function read_projects() {
 	const sql = 'SELECT * FROM projects';
 	const projects = db.query(sql);
-	console.log(projects);
+	return projects;
 }
 
 async function read_reports() {
 	const sql = 'SELECT * FROM reports';
 	const reports = db.query(sql);
-	console.log(reports);
+	return reports;
 }
 
 async function create_project(id: string, name: string, description: string) {
