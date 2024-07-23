@@ -75,6 +75,26 @@ app.put('/update_report', function (req, res) {
 	}
 });
 
+app.delete('/delete_project', function (req, res) {
+	const id = req.body.id;
+	try {
+		delete_project(id);
+		res.send('Project deleted successfully!');
+	} catch (error) {
+		res.send('Error deleting project!');
+	}
+});
+
+app.delete('/delete_report', function (req, res) {
+	const id = req.body.id;
+	try {
+		delete_report(id);
+		res.send('Report deleted successfully!');
+	} catch (error) {
+		res.send('Error deleting report!');
+	}
+});
+
 async function read_projects() {
 	const sql = 'SELECT * FROM projects';
 	const projects = db.query(sql);
@@ -115,6 +135,20 @@ async function update_report(id: string, text: string, projectid: string) {
 	const sql =
 		'UPDATE reports SET text = @text WHERE id = @id AND projectid = @projectid';
 	const params = { id: id, text: text, projectid: projectid };
+	const result = db.run(sql, params);
+	console.log(result);
+}
+
+async function delete_project(id: string) {
+	const sql = 'DELETE FROM projects WHERE id = @id';
+	const params = { id: id };
+	const result = db.run(sql, params);
+	console.log(result);
+}
+
+async function delete_report(id: string) {
+	const sql = 'DELETE FROM reports WHERE id = @id';
+	const params = { id: id };
 	const result = db.run(sql, params);
 	console.log(result);
 }
